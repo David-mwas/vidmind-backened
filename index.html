@@ -28,7 +28,7 @@
         document.getElementById("userSendMessage").value = "";
         currentData.messages.push({ content: messageContent, role: "user" });
         updateState(currentData);
-
+        console.log(currentData.messages);
         fetch("/", {
           method: "POST",
           headers: {
@@ -124,7 +124,7 @@
 			</div>`;
       }
 
-      function  renderMessages(data) {
+      function renderMessages(data) {
         let htmlMessagesContent = "";
         for (let i = 2; i < data.messages.length; i++) {
           const message = data.messages[i];

@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-app.post("/videos/:id", async (req, res) => {
+app.post("/", async (req, res) => {
   const urlAddress = req.body.urlAddress;
   if (!urlAddress) {
     return;
@@ -64,13 +64,13 @@ app.post("/videos/:id", async (req, res) => {
     let video = await addVideoToMongoDB(urlAddress);
     console.log(`confirm video from astra ${video}`);
     messages = await addChatGPTresponse(video, messages);
-    console.log(video._id.toString());
-    const id = video._id.toString();
+    console.log(video?._id.toString());
+    const id = video?._id.toString();
     // console.log(messages);
     try {
       const latestMessage = messages[messages.length - 1];
       const chat = await Chat.findOneAndUpdate(
-        { _id: req.params.id },
+        { _id: req.params?.id },
         { $set: { video: id, title: latestMessage.content.slice(20, 43) } },
         { new: true }
       );
