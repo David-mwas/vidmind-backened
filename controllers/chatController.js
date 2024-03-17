@@ -67,7 +67,6 @@ exports.createChat = async (req, res) => {
 //   }
 // };
 
-
 // Get a specific chat session by its ID
 exports.getChatById = async (req, res) => {
   try {

@@ -18,7 +18,8 @@ const express = require("express");
 // mongodb
 const mongoose = require("mongoose");
 
-const uri = "mongodb://localhost/VideoDB";
+const uri = process.env.mongoDB_URI;
+// mongodb+srv://davidmwas:<password>@cluster0.vdzyeb4.mongodb.net/
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -45,7 +46,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-app.post("/", async (req, res) => {
+app.post("/videos/:id", async (req, res) => {
   const urlAddress = req.body.urlAddress;
   if (!urlAddress) {
     return;
@@ -77,23 +78,23 @@ app.post("/", async (req, res) => {
 
       if (!chat) {
         console.log("Chat not found");
-        // return res.status(404).json({ message: "Chat not found" });
+        return res.status(404).json({ message: "Chat not found" });
       }
 
       await chat.save();
       console.log("Chat updated successfully");
     } catch (err) {
       console.error(err);
-      // res.status(500).json({ message: "Server Error" });
+      res.status(500).json({ message: "Server Error" });
     }
     // await Chat.save();
-    res.send({
+    res.status(200).send({
       video,
       messages,
     });
   } else {
     console.log("Not a valid YouTube URL");
-    res.send({
+    res.status(400).send({
       Error: "Invalid youtube url",
     });
   }

@@ -5,7 +5,7 @@ const User = require("../models/user");
 exports.createUser = async (req, res) => {
   try {
     const { username, role } = req.body;
-
+    console.log(username, role);
     // Check if the username is already taken
     const existingUser = await User.findOne({ username });
     if (existingUser) {
