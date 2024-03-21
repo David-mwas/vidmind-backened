@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-
+require("dotenv").config();
 // const generateEmbedding = async (prompt) => {
 //   const response = await fetch("https://api.openai.com/v1/embeddings", {
 //     method: "POST",
@@ -23,7 +23,7 @@ const fetch = require("node-fetch");
 // };
 
 // module.exports = { generateEmbedding };
-
+const prompt="hello gemin i model"
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Access your API key as an environment variable (see "Set up your API key" above)
@@ -39,5 +39,6 @@ const generateEmbedding = async (prompt) => {
   console.log("Embedding Length:", embedding.length);
   return embedding.values;
 };
+generateEmbedding(prompt)
 
-module.exports = { generateEmbedding };
+// module.exports = { generateEmbedding };
