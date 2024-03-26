@@ -88,11 +88,7 @@ exports.getChatById = async (req, res) => {
       return mess;
     });
 
-    let messages = await Promise.all(messagePromises);
-
-    // Sort messages by timestamp in descending order
-    messages = messages.sort((a, b) => a.timestamp - b.timestamp);
-
+    const messages = await Promise.all(messagePromises);
     const response = {
       message: messages,
       video: video,
@@ -103,32 +99,6 @@ exports.getChatById = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-
-// Get a specific chat session by its ID
-// exports.getChatById = async (req, res) => {
-//   try {
-//     const chat = await Chat.findById(req.params.id);
-//     if (!chat) {
-//       return res.status(404).json({ message: "Chat not found" });
-//     }
-//     const video = await Video.findById(chat?.video?.toHexString());
-
-//     const messagePromises = chat.messages.map(async (item) => {
-//       const mess = await Message.findById(item?.toHexString());
-//       return mess;
-//     });
-
-//     const messages = await Promise.all(messagePromises);
-//     const response = {
-//       message: messages,
-//       video: video,
-//     };
-//     res.status(200).json(response);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server Error" });
-//   }
-// };
 
 // Add a new message to a chat session
 
