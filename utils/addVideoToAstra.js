@@ -57,7 +57,7 @@ const addVideoToMongoDB = async (url) => {
     const existingVideo = await Video.findOne({ url: videoUrl });
 
     if (existingVideo) {
-      console.log("Video already exists in the database");
+      console.log("Video already exists in the database", existingVideo);
 
       return {
         addedToMongoDB: false,
@@ -67,16 +67,17 @@ const addVideoToMongoDB = async (url) => {
       let transcript = await getYoutubeTranscript(videoUrl);
       console.log(`transcript ${transcript}`);
       let vector = await generateEmbedding(transcript);
+      console.log(`vector ${vector}`);
       let videoInfo = await getYoutubeVideoInfo(videoUrl);
-
+      console.log(`videoInfo ${videoInfo}`);
       let addedVideo = await Video.create({
         ...videoInfo,
         url: videoUrl,
         transcript,
         $vector: vector,
       });
-      const videoId = addedVideo._id;
-      console.log("Video inserted into the database");
+      const videoId = addedVideo?._id;
+      console.log("Video inserted into the database", addedVideo);
       await addedVideo.save();
       return {
         addedToMongoDB: true,

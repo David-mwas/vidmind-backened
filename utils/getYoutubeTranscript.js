@@ -3,9 +3,10 @@ const { YoutubeTranscript } = require("youtube-transcript");
 const getVideoIdFromUrl = (url) => {
   console.log(`getVideoIdFromUrl: ${url}`);
   let videoId = url.split("v=")[1];
-  const ampersandPosition = videoId.indexOf("&");
+  const ampersandPosition = videoId?.indexOf("&");
+  console.log(`ampersandPosition: ${ampersandPosition}`);
   if (ampersandPosition !== -1) {
-    videoId = videoId.substring(0, ampersandPosition);
+    videoId = videoId?.substring(0, ampersandPosition);
   }
   return videoId;
 };

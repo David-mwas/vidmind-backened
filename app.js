@@ -163,13 +163,14 @@ app.post("/videos/:id", async (req, res) => {
 
   try {
     const video = await addVideoToMongoDB(urlAddress);
+    console.log(`confirm video from mongo ${video}`);
     const messages = await addChatGPTresponse(video, req.body.messages || []);
     const latestMessage = messages[messages.length - 1];
 
     const chat = await Chat.findOneAndUpdate(
       { _id: req.params.id },
       {
-        $set: { video: video._id, title: latestMessage.content.slice(20, 43) },
+        $set: { video: video?._id, title: latestMessage.content.slice(20, 43) },
       },
       { new: true }
     );
