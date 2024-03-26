@@ -26,9 +26,6 @@ const addChatGPTresponse = async (video, messages) => {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages,
-      temperature: 0.7, // Set temperature (controls randomness of generation)
-      max_tokens: 1000, // Set max tokens (maximum number of tokens to generate)
-      top_p: 0.9, // Set top p (nucleus sampling: selects the cumulative probability
     });
 
     messages = [...messages, response.choices[0].message];
