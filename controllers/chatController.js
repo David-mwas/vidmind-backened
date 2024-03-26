@@ -91,7 +91,7 @@ exports.getChatById = async (req, res) => {
     let messages = await Promise.all(messagePromises);
 
     // Sort messages by timestamp in descending order
-    messages = messages.sort((a, b) => b.timestamp - a.timestamp);
+    messages = messages.sort((a, b) => a.timestamp - b.timestamp);
 
     const response = {
       message: messages,
