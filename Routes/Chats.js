@@ -4,7 +4,7 @@ const chatRouter = express.Router();
 const chatController = require("../controllers/chatController");
 
 // Define chat routes
-chatRouter.get("/getall", chatController.getAllChats);
+chatRouter.get("/:userId/getall", chatController.getAllChats);
 chatRouter.post("/create", chatController.createChat);
 chatRouter.get("/:id/getchatbyid", chatController.getChatById);
 // create a message

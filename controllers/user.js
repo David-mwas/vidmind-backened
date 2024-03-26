@@ -9,7 +9,9 @@ exports.createUser = async (req, res) => {
     // Check if the username is already taken
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ message: "Username already exists" });
+      return res
+        .status(200)
+        .json({ message: "Username already exists", existingUser });
     }
 
     // Create a new user with the provided username
