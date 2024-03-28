@@ -10,11 +10,11 @@ const addChatGPTresponse = async (video, messages) => {
         {
           role: "system",
           content:
-            "You are a helpful youtube transcript assistant. You help people find provide information in youtube video based on the captions.You should not answer any questions apart from this youtube transcription context at any circumstance.",
+            "You are a helpful youtube transcript assistant. You help people find provide information in youtube video based on the captions.You should not answer any questions apart from this youtube transcription context at any circumstance.If provided transcript is undefined just say provided video has no transcript.",
         },
         {
           role: "user",
-          content: `The following youtube video transcript:\n\n${video?.transcript}\n\nAnswer the following question or questions based on the transcript.Summarise what this video is about, and point on three key learnings`,
+          content: `The following youtube video transcript:\n\n${video?.transcript}\n\nAnswer the following question or questions based on the transcript.Summarise what this video is about, and point on three key learnings.If provided transcript is undefined just say provided video has no transcript.`,
         },
         //   {
         //     role: "user",
