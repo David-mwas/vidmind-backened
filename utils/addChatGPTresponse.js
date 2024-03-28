@@ -14,7 +14,7 @@ const addChatGPTresponse = async (video, messages) => {
         },
         {
           role: "user",
-          content: `The following youtube video transcript:\n\n${video?.transcript}\n\nAnswer the following question or questions based on the transcript.Summarise what this video is about, and point on 6 key learnings.If provided transcript is undefined just say provided video has no transcript.`,
+          content: `The following youtube video transcript:\n\n${video?.transcript}\n\nAnswer the following question or questions based on the transcript.Summarise what this video is about, and point on 10 key learnings.If provided transcript is undefined just say provided video has no transcript.`,
         },
         //   {
         //     role: "user",
