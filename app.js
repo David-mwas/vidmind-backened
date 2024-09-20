@@ -117,7 +117,7 @@ const { addChatGPTresponse } = require("./utils/addChatGPTresponse");
 const {
   connectToAstraDb,
   initMongooseVideoModel,
-} = require("./astradb-mongoose");
+} = require("./models/astradb-mongoose");
 
 const app = express();
 connectToAstraDb();
