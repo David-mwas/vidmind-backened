@@ -248,7 +248,7 @@ module.exports = { addChatGPTresponse };
 //   chatHistory.push(modelMessage); // Add model's response to chat history
 
 //   return chatHistory; // Return updated chat history
-}
+// }
 
 // // Example usage:
 // async function main() {
