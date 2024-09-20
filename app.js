@@ -114,8 +114,14 @@ const chatRoutes = require("./Routes/Chats");
 const Chat = require("./models/chat");
 const { addVideoToMongoDB } = require("./utils/addVideoToAstra");
 const { addChatGPTresponse } = require("./utils/addChatGPTresponse");
+const {
+  connectToAstraDb,
+  initMongooseVideoModel,
+} = require("./astradb-mongoose");
 
 const app = express();
+connectToAstraDb();
+initMongooseVideoModel();
 const port = process.env.PORT || 5000;
 
 // Connect to MongoDB
