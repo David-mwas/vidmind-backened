@@ -1,3 +1,65 @@
+// const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+// // Access your API key as an environment variable
+// const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+
+// const addChatGPTresponse = async (video, messages) => {
+//   try {
+//     if (messages.length === 0) {
+//       messages = [
+//         {
+//           role: "user",
+//           parts: [
+//             {
+//               content: `The following YouTube video transcript:\n\n${video.transcript}\n\nAnswer the following question or questions based on the transcript.`,
+//             },
+//             {
+//               content:
+//                 "Summarise what this video is about, and point out three key learnings.",
+//             },
+//           ],
+//         },
+//       ];
+//     }
+
+//     // For text-only input, use the gemini-pro model
+//     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+//     // Create a chat with the initial messages
+//     const chat = model.startChat({ messages });
+
+//     // Get the user's latest message
+//     const userMessage = messages[messages.length - 1];
+//     console.log(`userMessage...`, userMessage);
+
+//     // Send the user's message to the chat
+//     const result = await chat.sendMessage(messages);
+//     const response = await result.response;
+//     const text = response.text();
+
+//     // Add the model's response to the messages
+//     messages.push({
+//       role: "model",
+//       parts: [{ content: text }],
+//     });
+
+//     return messages;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// module.exports = { addChatGPTresponse };
+
+
+
+
+
+
+
+
+
+
 // const { OpenAI } = require("openai");
 // const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 // // If user insists for questions out of this context, you should just respond with 'I don't know'.
@@ -97,6 +159,11 @@ const addChatGPTresponse = async (video, messages) => {
 };
 
 module.exports = { addChatGPTresponse };
+
+
+
+
+
 
 // node --version # Should be >= 18
 // npm install @google/generative-ai
