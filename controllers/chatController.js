@@ -8,13 +8,18 @@ const Video = require("../models/video");
 exports.getAllChats = async (req, res) => {
   try {
     const { userId } = req.params;
-
+    console.log("userId " + userId);
     // Check if both user and model exist
     const user = await User.findById(userId);
-    console.log(user._id);
-    // console.log(userId);
+    console.log(user?._id);
 
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
     const chats = await Chat.find({ user: user._id });
+    if (!chats) {
+      return res.status(404).json({ message: "Chats not found" });
+    }
     res.json(chats);
   } catch (err) {
     console.error(err);
