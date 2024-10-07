@@ -7,8 +7,8 @@ const userRoutes = require("./Routes/user");
 const chatRoutes = require("./Routes/Chats");
 const Chat = require("./models/chat");
 const { addVideoToMongoDB } = require("./utils/addVideoToAstra");
-const { addChatGPTresponse } = require("./utils/addChatGPTresponse");
-
+const { addChatGPTresponse } = require("./utils/gemini");
+// const {initMongooseVideoModel} =require("./models/astradb-mongoose")
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -25,8 +25,10 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB");
 });
-
+// connectToAstraDb()
+// initMongooseVideoModel();
 // Middleware
+
 app.use(
   cors({
     origin: "http://localhost:5173", // Adjust this based on your frontend URL
@@ -64,14 +66,17 @@ app.post("/videos/:id", async (req, res) => {
 
   try {
     const video = await addVideoToMongoDB(urlAddress);
-    console.log(`confirm video from mongo ${video}`);
-    const messages = await addChatGPTresponse(video, req.body.messages || []);
+    console.log(`req.body?.messages ${req.body?.messages}`);
+    const messages = await addChatGPTresponse(video, req.body?.messages || []);
     const latestMessage = messages[messages.length - 1];
 
     const chat = await Chat.findOneAndUpdate(
-      { _id: req.params.id },
+      { _id: req.params?.id },
       {
-        $set: { video: video?._id, title: latestMessage.content.slice(20, 43) },
+        $set: {
+          video: video?._id,
+          title: latestMessage?.content?.slice(20, 43),
+        },
       },
       { new: true }
     );

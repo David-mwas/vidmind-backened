@@ -1,64 +1,123 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+/*
+ * Install the Generative AI SDK
+ *
+ * $ npm install @google/generative-ai
+ */
 
-// Access your API key as an environment variable
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+const video = require("../models/video");
 
 const addChatGPTresponse = async (video, messages) => {
-  try {
-    if (messages.length === 0) {
-      messages = [
-        {
-          role: "user",
-          parts: [
-            {
-              content: `The following YouTube video transcript:\n\n${video.transcript}\n\nAnswer the following question or questions based on the transcript.`,
-            },
-            {
-              content:
-                "Summarise what this video is about, and point out three key learnings.",
-            },
-          ],
-        },
-      ];
-    }
+  const {
+    GoogleGenerativeAI,
+    HarmCategory,
+    HarmBlockThreshold,
+  } = require("@google/generative-ai");
 
-    // For text-only input, use the gemini-pro model
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  const apiKey = "AIzaSyAlt94MEM4PZZEdapMEbV-4g25DB-CbnY8";
+  const genAI = new GoogleGenerativeAI(apiKey);
 
-    // Create a chat with the initial messages
-    const chat = model.startChat({ messages });
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+    systemInstruction: `The following YouTube video transcript:\n\n${video.transcript}\n\nAnswer the following question or questions based on the transcript.`,
+  });
 
-    // Get the user's latest message
-    const userMessage = messages[messages.length - 1];
-    console.log(`userMessage...`, userMessage);
+  const generationConfig = {
+    temperature: 1,
+    topP: 0.95,
+    topK: 64,
+    maxOutputTokens: 8192,
 
-    // Send the user's message to the chat
-    const result = await chat.sendMessage(messages);
-    const response = await result.response;
-    const text = response.text();
+    //   responseMimeType: "application/json",
+  };
 
-    // Add the model's response to the messages
-    messages.push({
-      role: "model",
-      parts: [{ content: text }],
-    });
+  const chatSession = model.startChat({
+    generationConfig,
+    // safetySettings: Adjust safety settings
+    // See https://ai.google.dev/gemini-api/docs/safety-settings
+    history: [
+      {
+        role: "user",
+        parts: [
+          {
+            text: "Summarise what this video is about, and point out three key learnings",
+          },
+        ],
+      },
+      {
+        role: "model",
+        parts: [
+          {
+            text: "I am a youtube helpful assistant designed to summarize youtube videos based on transcript context. Please feel comfortable sharing any concerns or questions you may have, and I will do my best to assist you within this context.",
+          },
+        ],
+      },
+    ],
+  });
 
-    return messages;
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await chatSession.sendMessage(messages);
+  console.log(result.response.text());
 };
 
 module.exports = { addChatGPTresponse };
+// const { GoogleGenerativeAI } = require("@google/generative-ai");
 
+// // // Access your API key as an environment variable
+// const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+// const generationConfig = {
+//   temperature: 1,
+//   topP: 0.95,
+//   topK: 64,
+//   maxOutputTokens: 8192,
 
+//   //   responseMimeType: "application/json",
+// };
+// const addChatGPTresponse = async (video, messages) => {
+//   try {
+//     if (messages.length === 0) {
+//       messages = [
+//         {
+//           role: "user",
+//           parts: [
+//             {
+//               content: `The following YouTube video transcript:\n\n${video.transcript}\n\nAnswer the following question or questions based on the transcript.`,
+//             },
+//             {
+//               content:
+//                 "Summarise what this video is about, and point out three key learnings.",
+//             },
+//           ],
+//         },
+//       ];
+//     }
 
+//     // For text-only input, use the gemini-pro model
+//     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
+//     // Create a chat with the initial messages
+//     const chat = model.startChat({ generationConfig, messages });
 
+//     // Get the user's latest message
+//     const userMessage = messages[messages.length - 1];
+//     console.log(`userMessage...`, userMessage);
 
+//     // Send the user's message to the chat
+//     const result = await chat.sendMessage(messages);
+//     const response = await result.response;
+//     const text = response.text();
 
+//     // Add the model's response to the messages
+//     messages.push({
+//       role: "model",
+//       parts: [{ content: text }],
+//     });
 
+//     return messages;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
+// module.exports = { addChatGPTresponse };
 
 // const { OpenAI } = require("openai");
 // const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -100,13 +159,58 @@ module.exports = { addChatGPTresponse };
 //   }
 // };
 // module.exports = { addChatGPTresponse };
+// const { GoogleGenerativeAI } = require("@google/generative-ai");
+// const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+
+// const addChatGPTresponse = async (video, messages) => {
+//   try {
+//     if (messages.length === 0) {
+//       messages = [
+//         {
+//           role: "user",
+//           content: `The following YouTube video transcript:\n\n${video.transcript}\n\nAnswer the following question or questions based on the transcript.`,
+//         },
+//         {
+//           role: "user",
+//           content:
+//             "Summarise what this video is about, and point out three key learnings.",
+//         },
+//       ];
+//     }
+
+//     // For text-only input, use the gemini-pro model
+//     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+//     // Create a chat with the initial messages
+//     const chat = model.startChat({ messages });
+//     console.log("chat", chat);
+
+//     // Send the user's message to the chat
+//     const result = await chat.sendMessage(messages);
+//     const response = await result.response;
+//     const text = response.text();
+
+//     // Add the model's response to the messages
+//     messages.push({
+//       role: "model",
+//       content: text, // Use content instead of parts
+//     });
+
+//     return messages;
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error("Error generating response");
+//   }
+// };
+
+// module.exports = { addChatGPTresponse };
 
 // const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-// // Access your API key as an environment variable
+// // // Access your API key as an environment variable
 // const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
-// // Initialize GoogleGenerativeAI with your API key
+// // // Initialize GoogleGenerativeAI with your API key
 
 // const addChatGPTresponse = async (video, messages) => {
 //   if (messages.length === 0) {
@@ -140,9 +244,11 @@ module.exports = { addChatGPTresponse };
 
 //   // Send the user's message to the chat
 //   const result = await chat.sendMessage(data);
+//   console.log(`result ${result}`);
 //   const response = await result.response;
+//   console.log("response...addChatGPTresponse  " + response);
 //   const text = response.text();
-
+//   console.log(`text ${text}`);
 //   // Add the model's response to the messages
 //   messages.push({
 //     role: "model",
@@ -159,11 +265,6 @@ module.exports = { addChatGPTresponse };
 // };
 
 // module.exports = { addChatGPTresponse };
-
-
-
-
-
 
 // node --version # Should be >= 18
 // npm install @google/generative-ai
@@ -209,7 +310,7 @@ module.exports = { addChatGPTresponse };
 
 //   const chat = model.startChat({
 //     generationConfig,
-//     safetySettings,
+//     safetySettings,1
 //     history: [
 //       {
 //         role: "user",
@@ -236,93 +337,3 @@ module.exports = { addChatGPTresponse };
 // }
 
 // runChat();
-
-// const {
-//   GoogleGenerativeAI,
-//   HarmCategory,
-//   HarmBlockThreshold,
-// } = require("@google/generative-ai");
-
-// const MODEL_NAME = "gemini-1.0-pro";
-// const API_KEY = "AIzaSyAlt94MEM4PZZEdapMEbV-4g25DB-CbnY8"; // Replace with your API key
-
-// async function runChat(messages = []) {
-//   const genAI = new GoogleGenerativeAI(API_KEY);
-//   const model = genAI.getGenerativeModel({ model: MODEL_NAME });
-
-//   const generationConfig = {
-//     temperature: 0.9,
-//     topK: 1,
-//     topP: 1,
-//     maxOutputTokens: 1000,
-//   };
-
-//   const safetySettings = [
-//     {
-//       category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-//       threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-//     },
-//     {
-//       category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-//       threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-//     },
-//     {
-//       category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-//       threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-//     },
-//     {
-//       category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-//       threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-//     },
-//   ];
-
-//   let chatHistory = [
-//     ...messages,
-//     {
-//       role: "user",
-//       parts: [
-//         {
-//           text: "You are mindful assistant and you help people with mental health issues. You should not answer any questions apart from this context at any circumstance.",
-//         },
-//       ],
-//     },
-//     {
-//       role: "model",
-//       parts: [
-//         {
-//           text: "I am a mindful assistant designed to provide support and guidance on mental health topics. Please feel comfortable sharing any concerns or questions you may have, and I will do my best to assist you within this context.",
-//         },
-//       ],
-//     },
-//   ]; // Copy existing messages
-
-//   const chat = model.startChat({
-//     generationConfig,
-//     safetySettings,
-//     history: chatHistory, // Pass existing messages as history
-//   });
-
-//   const userMessage =
-//     "i've been struggling with my  relationship lately , kindly guide me on what i can do"; // Example user message
-//   const result = await chat.sendMessage(userMessage);
-
-//   const response = result.response;
-//   // console.log(response.text())
-//   const modelMessage = {
-//     role: "model",
-//     parts: [{ text: response.text() }],
-//   };
-//   chatHistory.push(modelMessage); // Add model's response to chat history
-
-//   return chatHistory; // Return updated chat history
-// }
-
-// // Example usage:
-// async function main() {
-//   let messages = []; // Start with an empty array
-//   messages = await runChat(messages); // Run the chat and update messages
-//   const data = messages.map((item) => item.parts);
-//   console.log(data); // View updated chat history
-// }
-
-// main();

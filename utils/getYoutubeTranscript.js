@@ -1,10 +1,10 @@
 const { YoutubeTranscript } = require("youtube-transcript");
 
 const getVideoIdFromUrl = (url) => {
-  console.log(`getVideoIdFromUrl: ${url}`);
+  // console.log(`getVideoIdFromUrl: ${url}`);
   let videoId = url.split("v=")[1];
   const ampersandPosition = videoId?.indexOf("&");
-  console.log(`ampersandPosition: ${ampersandPosition}`);
+  // console.log(`ampersandPosition: ${ampersandPosition}`);
   if (ampersandPosition !== -1) {
     videoId = videoId?.substring(0, ampersandPosition);
   }
@@ -23,8 +23,10 @@ const convertYoutubeTranscriptJsonToString = async (jsonYoutubeTranscript) => {
 };
 
 const getYoutubeTranscript = async (url) => {
+  console.log("Invoked gyt...")
   const videoId = getVideoIdFromUrl(url);
   const transcriptJson = await YoutubeTranscript.fetchTranscript(videoId);
+  console.log(`transcriptJson ${transcriptJson}`);
   const transcriptString = await convertYoutubeTranscriptJsonToString(
     transcriptJson
   );

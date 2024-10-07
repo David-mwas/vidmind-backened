@@ -39,6 +39,6 @@ const generateEmbedding = async (prompt) => {
   console.log("Embedding Length:", embedding.length);
   return embedding.values;
 };
-generateEmbedding(prompt)
+// generateEmbedding(prompt)
 
 module.exports = { generateEmbedding };
