@@ -28,10 +28,11 @@ db.once("open", () => {
 // connectToAstraDb()
 // initMongooseVideoModel();
 // Middleware
-
-app.use(
+//localhost:5173
+//vidmind.vercel.app/
+http: https: app.use(
   cors({
-    origin: "http://localhost:5173", // Adjust this based on your frontend URL
+    origin: "https://vidmind.vercel.app", // Adjust this based on your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific methods
     credentials: true, // Allow credentials if needed
   })
