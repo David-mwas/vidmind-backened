@@ -18,9 +18,10 @@ const addChatGPTresponse = async ({
     const apiKey = process.env.API_KEY; // Use your environment variable
     const genAI = new GoogleGenerativeAI(apiKey);
     // console.log("Transcript =", video?.transcript);
-
+    // gemini - 1.0 - pro;
+    // gemini - 1.5 - flash;
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-1.0-pro",
       systemInstruction:
         "You are a helpful youtube transcript assistant. You help people find information in youtube video based on the transcript.You should not answer any questions apart from the given youtube transcription context at any circumstance.",
     });
@@ -58,6 +59,7 @@ const addChatGPTresponse = async ({
     });
 
     const result = await chatSession.sendMessage(prompt);
+    console.log("Result", result);
     const text = result.response.text();
 
     // Ensure messages is initialized before pushing
@@ -67,10 +69,10 @@ const addChatGPTresponse = async ({
       content: text, // Correct this to use content instead of parts
     });
 
-    console.log("Updated messages:", messages);
+    // console.log("Updated messages:", messages);
     return messages;
   } catch (error) {
-    console.error(error);
+    console.error("Error...", error);
   }
 };
 

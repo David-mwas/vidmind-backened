@@ -30,16 +30,22 @@ db.once("open", () => {
 // Middleware
 //localhost:5173
 //vidmind.vercel.app/
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: "https://vidmind.vercel.app", // Use the exact URL
+//     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+//     credentials: true, // Allow cookies if needed
+//   })
+// );
+app.options("*", cors());
 app.use(
   cors({
-    origin: "https://vidmind.vercel.app", // Use the exact URL
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-    credentials: true, // Allow cookies if needed
+    origin: "*", // Allow all origins
   })
 );
-app.options("*", cors());
 
-app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
