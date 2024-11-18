@@ -30,9 +30,9 @@ db.once("open", () => {
 // Middleware
 //localhost:5173
 //vidmind.vercel.app/
-http: https: app.use(
+app.use(
   cors({
-    origin: "https://vidmind.vercel.app", // Adjust this based on your frontend URL
+    origin: `${process.env.frontendUrl}`, // Adjust this based on your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific methods
     credentials: true, // Allow credentials if needed
   })
@@ -98,5 +98,6 @@ app.post("/videos/:id", async (req, res) => {
 
 // Start server
 app.listen(port, () => {
+  console.log(process.env.frontendUrl);
   console.log(`Server listening at http://localhost:${port}`);
 });
