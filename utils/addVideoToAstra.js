@@ -49,16 +49,16 @@ const { generateEmbedding } = require("./generateEmbedding");
 const { getYoutubeVideoInfo } = require("./getYoutubeVideoInfo");
 const Video = require("../models/video");
 const addVideoToMongoDB = async (url) => {
-  console.log("invoked....")
+  // console.log("invoked....")
   try {
     
 
     const videoUrl = url;
-    console.log("videoUrl..." + videoUrl);
+    // console.log("videoUrl..." + videoUrl);
     const existingVideo = await Video.findOne({ url: videoUrl });
 
     if (existingVideo) {
-      console.log("Video already exists in the database", existingVideo);
+      // console.log("Video already exists in the database", existingVideo);
 
       return {
         addedToMongoDB: false,
@@ -78,7 +78,7 @@ const addVideoToMongoDB = async (url) => {
         $vector: vector,
       });
       const videoId = addedVideo?._id;
-      console.log("Video inserted into the database", addedVideo);
+      // console.log("Video inserted into the database", addedVideo);
       await addedVideo.save();
       return {
         addedToMongoDB: true,

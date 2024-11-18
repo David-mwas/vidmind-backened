@@ -67,9 +67,18 @@ app.post("/videos/:id", async (req, res) => {
 
   try {
     const video = await addVideoToMongoDB(urlAddress);
-    console.log(`req.body?.messages ${req.body?.messages}`);
-    const messages = await addChatGPTresponse(video, req.body?.messages || []);
-    const latestMessage = messages[messages.length - 1];
+    // console.log(
+    //   `line 70 req.body?.messages ${req.body?.messages.map((m) => m)}`
+    // );
+    const messages = await addChatGPTresponse({
+      video: video,
+      messages: req.body?.messages || [],
+      prompt: req.body?.prompt,
+    });
+    console.log("Messages", messages);
+    if (messages) {
+      var latestMessage = messages[messages?.length - 1] || "New chat";
+    }
 
     const chat = await Chat.findOneAndUpdate(
       { _id: req.params?.id },
@@ -87,7 +96,7 @@ app.post("/videos/:id", async (req, res) => {
     }
 
     await chat.save();
-    console.log("Chat updated successfully");
+    // console.log("Chat updated successfully");
 
     return res.status(200).json({ video, messages });
   } catch (err) {

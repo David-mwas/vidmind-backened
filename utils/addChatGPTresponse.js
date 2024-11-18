@@ -7,55 +7,67 @@
 const video = require("../models/video");
 
 const addChatGPTresponse = async (video, messages) => {
-  const {
-    GoogleGenerativeAI,
-    HarmCategory,
-    HarmBlockThreshold,
-  } = require("@google/generative-ai");
+  try {
+    const {
+      GoogleGenerativeAI,
+      HarmCategory,
+      HarmBlockThreshold,
+    } = require("@google/generative-ai");
 
-  const apiKey = "AIzaSyAlt94MEM4PZZEdapMEbV-4g25DB-CbnY8";
-  const genAI = new GoogleGenerativeAI(apiKey);
+    const apiKey = "AIzaSyAlt94MEM4PZZEdapMEbV-4g25DB-CbnY8";
+    const genAI = new GoogleGenerativeAI(apiKey);
 
-  const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
-    systemInstruction: `The following YouTube video transcript:\n\n${video.transcript}\n\nAnswer the following question or questions based on the transcript.`,
-  });
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+      systemInstruction: `The following YouTube video transcript:\n\n${video.transcript}\n\nAnswer the following question or questions based on the transcript.`,
+    });
 
-  const generationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 64,
-    maxOutputTokens: 8192,
+    const generationConfig = {
+      temperature: 1,
+      topP: 0.95,
+      topK: 64,
+      maxOutputTokens: 8192,
 
-    //   responseMimeType: "application/json",
-  };
+      //   responseMimeType: "application/json",
+    };
 
-  const chatSession = model.startChat({
-    generationConfig,
-    // safetySettings: Adjust safety settings
-    // See https://ai.google.dev/gemini-api/docs/safety-settings
-    history: [
-      {
-        role: "user",
-        parts: [
-          {
-            text: "Summarise what this video is about, and point out three key learnings",
-          },
-        ],
-      },
-      {
-        role: "model",
-        parts: [
-          {
-            text: "I am a youtube helpful assistant designed to summarize youtube videos based on transcript context. Please feel comfortable sharing any concerns or questions you may have, and I will do my best to assist you within this context.",
-          },
-        ],
-      },
-    ],
-  });
+    const chatSession = model.startChat({
+      generationConfig,
+      // safetySettings: Adjust safety settings
+      // See https://ai.google.dev/gemini-api/docs/safety-settings
+      history: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: "Summarise what this video is about, and point out three key learnings",
+            },
+          ],
+        },
+        {
+          role: "model",
+          parts: [
+            {
+              text: "I am a youtube helpful assistant designed to summarize youtube videos based on transcript context. Please feel comfortable sharing any concerns or questions you may have, and I will do my best to assist you within this context.",
+            },
+          ],
+        },
+      ],
+    });
 
-  const result = await chatSession.sendMessage(messages);
-  console.log(result.response.text());
+    const result = await chatSession.sendMessage(messages);
+    console.log(result.response.text());
+
+    const text = result.response.text();
+    messages.push({
+      role: "model",
+      parts: [{ content: text }],
+    });
+
+    return messages;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = { addChatGPTresponse };
