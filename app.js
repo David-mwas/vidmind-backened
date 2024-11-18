@@ -32,11 +32,14 @@ db.once("open", () => {
 //vidmind.vercel.app/
 app.use(
   cors({
-    origin: `${process.env.frontendUrl}`, // Adjust this based on your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific methods
-    credentials: true, // Allow credentials if needed
+    origin: process.env.frontendUrl, // Use the exact URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    credentials: true, // Allow cookies if needed
   })
 );
+app.options("*", cors());
+
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
