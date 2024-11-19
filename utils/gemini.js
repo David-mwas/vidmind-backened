@@ -26,24 +26,6 @@ const addChatGPTresponse = async ({
       systemInstruction:
         "You are a helpful youtube transcript assistant. You help people find information in youtube video based on the transcript.You should not answer any questions apart from the given youtube transcription context at any circumstance.",
     });
-    const safetySettings = [
-      {
-        category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-      },
-      {
-        category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-      },
-      {
-        category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-      },
-      {
-        category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-      },
-    ];
 
     const generationConfig = {
       temperature: 0.9,
@@ -54,7 +36,6 @@ const addChatGPTresponse = async ({
 
     const chatSession = model.startChat({
       generationConfig,
-      safetySettings,
       history: [
         {
           role: "model",
