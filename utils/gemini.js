@@ -20,6 +20,7 @@ const addChatGPTresponse = async ({
     // console.log("Transcript =", video?.transcript);
     // gemini - 1.0 - pro;
     // gemini - 1.5 - flash;
+    // 8192;
     const model = genAI.getGenerativeModel({
       model: "gemini-1.0-pro",
       systemInstruction:
@@ -30,7 +31,7 @@ const addChatGPTresponse = async ({
       temperature: 1,
       topP: 0.95,
       topK: 64,
-      maxOutputTokens: 8192,
+      maxOutputTokens: 2048,
     };
 
     const chatSession = model.startChat({

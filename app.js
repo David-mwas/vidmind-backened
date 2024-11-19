@@ -45,7 +45,6 @@ app.use(
   })
 );
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
@@ -55,8 +54,11 @@ app.use("/users", userRoutes);
 app.use("/chats", chatRoutes);
 
 // Serve index.html
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+// app.get("/", (req, res) => {
+//   res.sendFile(__dirname + "/index.html");
+// });
+app.get("/", (req, res) => { 
+  res.send("Hello World!, Welcome to VidmindAI API"); 
 });
 
 // Video POST route
@@ -94,7 +96,7 @@ app.post("/videos/:id", async (req, res) => {
       {
         $set: {
           video: video?._id,
-          title: latestMessage?.content?.slice(20, 43),
+          title: latestMessage?.content?.slice(0, 23),
         },
       },
       { new: true }
