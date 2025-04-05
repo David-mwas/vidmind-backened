@@ -14,7 +14,7 @@ const addChatGPTresponse = async (video, messages) => {
       HarmBlockThreshold,
     } = require("@google/generative-ai");
 
-    const apiKey = "AIzaSyAlt94MEM4PZZEdapMEbV-4g25DB-CbnY8";
+    const apiKey = "AIzaSyAxkTPGnDh7FSqJoHyKwvZyK9gEW7KEAD0";
     const genAI = new GoogleGenerativeAI(apiKey);
 
     const model = genAI.getGenerativeModel({
