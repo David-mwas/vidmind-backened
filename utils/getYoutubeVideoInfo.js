@@ -1,4 +1,4 @@
-const ytdl = require("ytdl-core");
+const ytdl = require("@distube/ytdl-core");
 const fs = require("fs");
 
 const getYoutubeVideoInfo = async (url) => {
@@ -15,11 +15,14 @@ const getYoutubeVideoInfo = async (url) => {
       thumbnail:
         videoDetails.thumbnails[videoDetails.thumbnails.length - 1].url,
     };
-    console.log(` getYoutubeVideoInfo ${videoInfo}`);
+    console.log(videoInfo);
+    // console.log(` getYoutubeVideoInfo details ${videoDetails}`);
     return videoInfo;
   } catch (e) {
     console.error(e);
   }
 };
+
+// getYoutubeVideoInfo("https://www.youtube.com/watch?v=m4-HM_sCvtQ");
 
 module.exports = { getYoutubeVideoInfo };

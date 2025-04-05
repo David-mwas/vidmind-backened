@@ -49,10 +49,10 @@ const { generateEmbedding } = require("./generateEmbedding");
 const { getYoutubeVideoInfo } = require("./getYoutubeVideoInfo");
 const Video = require("../models/video");
 const addVideoToMongoDB = async (url) => {
-  // console.log("invoked....")
+  console.log("invoked....");
+  const videoInfoo = await getYoutubeVideoInfo(url);
+  console.log(`videoInfoo ${videoInfoo}`);
   try {
-    
-
     const videoUrl = url;
     // console.log("videoUrl..." + videoUrl);
     const existingVideo = await Video.findOne({ url: videoUrl });

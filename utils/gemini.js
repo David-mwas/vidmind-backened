@@ -22,7 +22,7 @@ const addChatGPTresponse = async ({
     // gemini - 1.5 - flash;
     // 8192;
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.0-pro",
+      model: "gemini-1.5-pro",
       systemInstruction:
         "You are a helpful youtube transcript assistant. You help people find information in youtube video based on the transcript.You should not answer any questions apart from the given youtube transcription context at any circumstance.",
     });
