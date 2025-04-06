@@ -1,4 +1,4 @@
-const ytdl = require("@quanghd96/ytdl-core");
+const ytdl = require("ytdl-core");
 
 const getYoutubeVideoInfo = async (url) => {
   try {

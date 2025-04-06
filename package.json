@@ -16,7 +16,8 @@
     "nodemon": "^3.1.7",
     "openai": "^4.29.2",
     "stargate-mongoose": "^0.3.0",
-    "youtube-transcript": "^1.0.6"
+    "youtube-transcript": "^1.0.6",
+    "ytdl-core": "^4.11.5"
   },
   "scripts": {
     "start": "nodemon app.js"
