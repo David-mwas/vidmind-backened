@@ -1,18 +1,24 @@
-const ytdl = require("@distube/ytdl-core");
+const ytdl = require("@quanghd96/ytdl-core");
 
 const getYoutubeVideoInfo = async (url) => {
   try {
-    let info = await ytdl.getInfo(url);
-    const videoDetails = info.videoDetails;
-    const author = videoDetails.author;
+    let info = await ytdl.getBasicInfo(url);
+    console.log(getYoutubeVideoInfo, info);
+    const videoDetails = info?.videoDetails;
+    console.log(`videoDetails ${videoDetails}`);
+    if (!videoDetails) {
+      console.error("No video details found");
+      return null;
+    }
+    const author = videoDetails?.author;
     const videoInfo = {
-      url: videoDetails.video_url,
-      title: videoDetails.title,
-      description: videoDetails.description,
-      author: author.name,
-      author_thumbnail: author.thumbnails[author.thumbnails.length - 1].url,
+      url: videoDetails?.video_url,
+      title: videoDetails?.title,
+      description: videoDetails?.description,
+      author: author?.name,
+      author_thumbnail: author?.thumbnails[author?.thumbnails.length - 1].url,
       thumbnail:
-        videoDetails.thumbnails[videoDetails.thumbnails.length - 1].url,
+        videoDetails?.thumbnails[videoDetails?.thumbnails.length - 1].url,
     };
     // console.log(videoInfo);
     // console.log(` getYoutubeVideoInfo details ${videoDetails}`);
