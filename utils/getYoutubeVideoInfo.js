@@ -1,5 +1,4 @@
 const ytdl = require("@distube/ytdl-core");
-const fs = require("fs");
 
 const getYoutubeVideoInfo = async (url) => {
   try {
@@ -15,7 +14,7 @@ const getYoutubeVideoInfo = async (url) => {
       thumbnail:
         videoDetails.thumbnails[videoDetails.thumbnails.length - 1].url,
     };
-    console.log(videoInfo);
+    // console.log(videoInfo);
     // console.log(` getYoutubeVideoInfo details ${videoDetails}`);
     return videoInfo;
   } catch (e) {

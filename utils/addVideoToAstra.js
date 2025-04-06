@@ -51,7 +51,7 @@ const Video = require("../models/video");
 const addVideoToMongoDB = async (url) => {
   console.log("invoked....");
   const videoInfoo = await getYoutubeVideoInfo(url);
-  console.log(`videoInfoo ${videoInfoo}`);
+  console.log(videoInfoo);
   try {
     const videoUrl = url;
     // console.log("videoUrl..." + videoUrl);
@@ -70,7 +70,7 @@ const addVideoToMongoDB = async (url) => {
       let vector = await generateEmbedding(transcript);
       console.log(`vector ${vector}`);
       let videoInfo = await getYoutubeVideoInfo(videoUrl);
-      console.log(`videoInfo ${videoInfo}`);
+      console.log("videoInfo", videoInfo);
       let addedVideo = await Video.create({
         ...videoInfo,
         url: videoUrl,
