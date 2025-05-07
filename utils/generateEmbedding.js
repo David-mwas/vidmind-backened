@@ -23,7 +23,7 @@ require("dotenv").config();
 // };
 
 // module.exports = { generateEmbedding };
-const prompt="hello gemin i model"
+const prompt = "hello gemin i model";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Access your API key as an environment variable (see "Set up your API key" above)
@@ -36,7 +36,6 @@ const generateEmbedding = async (prompt) => {
   // const text = "The quick brown fox jumps over the lazy dog.";
   const result = await model.embedContent(prompt);
   const embedding = result.embedding;
-  console.log("Embedding Length:", embedding.length);
   return embedding.values;
 };
 // generateEmbedding(prompt)

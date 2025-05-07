@@ -7,6 +7,10 @@
 const video = require("../models/video");
 
 const addChatGPTresponse = async (video, messages) => {
+  console.log("addChatGPTresponse invoked....");
+  const transcript = video?.transcript || video?.videoInfo?.description;
+  console.log("transcript", transcript);
+
   try {
     const {
       GoogleGenerativeAI,
@@ -19,7 +23,7 @@ const addChatGPTresponse = async (video, messages) => {
 
     const model = genAI.getGenerativeModel({
       model: "gemini-1.5-pro",
-      systemInstruction: `The following YouTube video transcript:\n\n${video.transcript}\n\nAnswer the following question or questions based on the transcript.`,
+      systemInstruction: `The following YouTube video transcript:\n\n${transcript}\n\nAnswer the following question or questions based on the transcript.`,
     });
 
     const generationConfig = {

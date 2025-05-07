@@ -11,8 +11,11 @@ const addChatGPTresponse = async ({
   prompt = "Summarize",
 }) => {
   try {
-    console.log(prompt);
+    // console.log(prompt);
     // console.log("addChatGPTresponse called: messages", [...messages]);
+    console.log("addChatGPTresponse invoked....");
+    const transcript = video?.transcript || video?.videoInfo?.description;
+    console.log("transcript video......", video);
     const { GoogleGenerativeAI } = require("@google/generative-ai");
 
     const apiKey = process.env.API_KEY; // Use your environment variable
@@ -22,7 +25,7 @@ const addChatGPTresponse = async ({
     // gemini - 1.5 - flash;
     // 8192;
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-pro",
+      model: "gemini-2.0-flash",
       systemInstruction:
         "You are a helpful youtube transcript assistant. You help people find information in youtube video based on the transcript.You should not answer any questions apart from the given youtube transcription context at any circumstance.",
     });
@@ -49,10 +52,10 @@ const addChatGPTresponse = async ({
           role: "user",
           parts: [
             {
-              text: `The following youtube video transcript:\n\n${video?.transcript}\n\nAnswer the following question or questions based on the transcript.Summarise what this video is about, and point on three key learnings.You should not answer any questions apart from the given youtube transcription context at any circumstance.`,
+              text: `The following youtube video transcript:\n\n${transcript}\n\nAnswer the following question or questions based on the transcript.Summarise what this video is about, and point on six key learnings.You should not answer any questions apart from the given youtube transcription context at any circumstance.`,
             },
             {
-              text: "Summarise what this video is about, and point out three key learnings.You should not answer any questions apart from the given youtube transcription context at any circumstance",
+              text: "Summarise what this video is about, and point out six key learnings.You should not answer any questions apart from the given youtube transcription context at any circumstance",
             },
           ],
         },

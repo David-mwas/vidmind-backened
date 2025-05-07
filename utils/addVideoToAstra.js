@@ -50,8 +50,7 @@ const { getYoutubeVideoInfo } = require("./getYoutubeVideoInfo");
 const Video = require("../models/video");
 const addVideoToMongoDB = async (url) => {
   console.log("invoked....");
-  const videoInfoo = await getYoutubeVideoInfo(url);
-  console.log(videoInfoo);
+
   try {
     const videoUrl = url;
     // console.log("videoUrl..." + videoUrl);
@@ -65,20 +64,30 @@ const addVideoToMongoDB = async (url) => {
         ...existingVideo.toJSON(),
       };
     } else {
-      let transcript = await getYoutubeTranscript(videoUrl);
-      console.log(`transcript ${transcript}`);
-      let vector = await generateEmbedding(transcript);
-      console.log(`vector ${vector}`);
+      // let transcripts;
+      // let transcript = await getYoutubeTranscript(videoUrl);
+      // console.log(`transcript ${transcript}`);
+
       let videoInfo = await getYoutubeVideoInfo(videoUrl);
-      console.log("videoInfo", videoInfo);
+      // // console.log("videoInfo", videoInfo);
+      // if (transcript && transcript !== undefined) {
+      //   transcripts = transcript;
+      // } else {
+      let transcripts = videoInfo?.description;
+      console.log("transcripts .....", transcripts);
+      // }
+      // console.log("transcripts ......", transcripts);
+      let vector = await generateEmbedding(transcripts);
+      console.log(`vector ${vector}`);
+
       let addedVideo = await Video.create({
         ...videoInfo,
         url: videoUrl,
-        transcript,
+        transcript: transcripts,
         $vector: vector,
       });
       const videoId = addedVideo?._id;
-      // console.log("Video inserted into the database", addedVideo);
+      console.log("Video inserted into the database", addedVideo);
       await addedVideo.save();
       return {
         addedToMongoDB: true,
